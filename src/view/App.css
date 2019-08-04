@@ -1,0 +1,8 @@
+body {
+   margin: 0px;
+}
+
+.root {
+   display: flex;
+   min-height: 100vh;
+}
