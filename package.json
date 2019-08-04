@@ -4,7 +4,7 @@
 	"description": "find and manage all the TODO comments in your projects",
 	"version": "0.0.1",
 	"publisher": "ee92",
-	"repository": "https://github.com/ee92/vs-todo",
+	"repository": "https://github.com/ee92/vs-todo-gui",
 	"icon": "assets/logo.png",
 	"engines": {
 		"vscode": "^1.36.0"

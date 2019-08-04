@@ -1,5 +1,5 @@
-# vs-todo
-find and manage all the TODO comments in your projects
+# vs-todo-gui
+find all the TODO comments in any file or folder
 
 ### License
 MIT
