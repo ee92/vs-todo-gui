@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './Todos.css';
 
-const Todo = ({todo}) => {
+const Todo = ({todo, openTodo}) => {
    return (
-      <div className={styles.todo}>
+      <div className={styles.todo} onClick={() => openTodo(todo.path)}>
          <div className={styles.todoText}>{todo.text}</div>
          <div className={styles.todoPath}>
             <span className={styles.link}>
@@ -14,12 +14,13 @@ const Todo = ({todo}) => {
    )
 }
 
-const Todos = ({list}) => {
+const Todos = ({list, openTodo}) => {
    return (
       <div className={styles.todos}>
          {list.map(todo => 
                <Todo
-                  todo={todo} 
+                  todo={todo}
+                  openTodo={openTodo}
                   key={todo.path + todo.text}
                />
          )}

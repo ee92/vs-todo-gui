@@ -1,4 +1,4 @@
-import {window, ViewColumn, Uri, ExtensionContext} from 'vscode';
+import {window, ViewColumn, Uri, ExtensionContext, workspace, TextDocument} from 'vscode';
 import { sep, join } from 'path';
 import { watch } from './watcher';
 import parseProject from './parser';
@@ -37,13 +37,32 @@ const init = (event: Uri, context: ExtensionContext) => {
 		</body>
 	</html>`;
 
-	const updateView = () => {
+	const updateTodos = () => {
 		const project = parseProject(path);
 		panel.webview.postMessage({project});
 	};
 
-	watch(path, updateView);
-	panel.webview.onDidReceiveMessage(updateView, null, context.subscriptions);
+	const openTodo = (path: Uri) => {
+		workspace.openTextDocument(path).then((doc: TextDocument) => {
+			window.showTextDocument(doc, 1);
+		});
+	};
+
+	const handleActions = (event) => {
+		switch(event.action) {
+			case('init'):
+				updateTodos();
+				break;
+			case('open'):
+				openTodo(event.payload);
+				break;
+			default:
+				break;
+		}
+	};
+
+	panel.webview.onDidReceiveMessage(handleActions, null, context.subscriptions);
+	watch(path, updateTodos);
 };
 
 export default init;

@@ -8,7 +8,7 @@ const App = () => {
    const [list, setList] = useState([]);
 
    useEffect(() => {
-      vscode.postMessage('hello from react')
+      vscode.postMessage({action: 'init'})
    }, [])
 
    useEffect(() => {
@@ -18,9 +18,13 @@ const App = () => {
       });
    }, [list])
 
+   const openTodo = (path) => {
+      vscode.postMessage({action: 'open', payload: path})
+   }
+
    return (
       <div className={styles.root}>
-         <Todos list={list}/>
+         <Todos list={list} openTodo={openTodo}/>
       </div>
    )
 }
