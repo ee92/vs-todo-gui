@@ -4,7 +4,8 @@ import {join} from 'path';
 
 type Todo = {
    path: string,
-   text: string
+   text: string,
+   line: number
 };
 
 const ignore = ['node_modules', 'build', 'dist', '.git', '.DS_Store'];
@@ -24,23 +25,24 @@ const regex = [
    }
 ];
 
-
 const cleanTodos = (todos: Todo[]) => {
    todos.forEach(todo => {
       todo.text.trim()
-      .replace(/\n|\r/g, " ")
-      .replace(/\s{2,}/g, " ");
+         .replace(/\n|\r/g, " ")
+         .replace(/\s{2,}/g, " ");
    });
 };
 
 const parseFile = (path: string, todos: Todo[]) => {
    const text = readFileSync(path, 'utf-8');
-   regex.forEach(expression => {
-      const comments = text.match(expression.comment) || [];
-      comments.map(comment => {
-         const matches = comment.match(expression.todo) || [];
-         matches.forEach(text => todos.push({path, text}));
-      });
+   regex.forEach(re => {
+      let comment;
+      while ((comment = re.comment.exec(text)) != null) {
+         const chars = text.substr(0, comment.index);
+         const line = chars.split('\n').length;
+         const matches = comment[0].match(re.todo) || [];
+         matches.forEach(text => todos.push({path, text, line}));
+      }
    });
 };
 

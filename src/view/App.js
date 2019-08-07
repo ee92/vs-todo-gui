@@ -18,8 +18,8 @@ const App = () => {
       });
    }, [list])
 
-   const openTodo = (path) => {
-      vscode.postMessage({action: 'open', payload: path})
+   const openTodo = (path, line) => {
+      vscode.postMessage({action: 'open', payload: {path, line}})
    }
 
    return (
